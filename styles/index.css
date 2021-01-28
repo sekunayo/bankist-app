@@ -1,0 +1,81 @@
+html{
+    font-size: 16px;
+}
+body{
+    font-family: "Poppins", sans-serif;
+    height: 100vh;
+    background-color: #f3f3f3;
+    color: #444;
+    margin: 0;
+    padding: 0;
+}  
+
+.main-container{
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: 15vh;
+}
+.box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.text{
+    font-weight: 700;
+    font-size: 1.1rem;
+    word-spacing: 1px;
+    letter-spacing: 1px;
+}
+.logo{
+    width: 60px;
+    height: 60px;
+}
+img{
+    height: auto;
+    max-width: 100%;
+    color: #444;
+}
+.login-info input{
+    border: 1px solid transparent;
+    background-color: white;
+    text-align: center;
+    width: 30%;
+    padding: 8px 0;
+    border-radius: 30px;
+    font-size: 1rem;
+  
+}
+.login-info input:focus{
+   outline: 0;
+   border: 1px solid hsl(0, 0%, 85%);
+   transition: 0.5s;
+   transform: scale(1);
+}
+.login-info input::placeholder{
+    color: #bbb;
+}
+#user,#pin{
+    margin-right: 10px;
+}
+i{
+    font-size: 1.5rem;
+    font-weight: 100;
+}
+.media-query-container{
+    display: none;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.media-query-content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+}
+.media-query-content p{
+    font-size: 1.2rem;
+}
+.sort-arrow{
+    font-size: 0.9rem;
+}

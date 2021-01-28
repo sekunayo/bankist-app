@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles/index.css">
+    <link rel="stylesheet" href="styles/modal.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
+        integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="main-container">
+        <div class="login box">
+            <p class="text">Log in to get started</p>
+        </div>
+        <div class="logo-box box">
+            <div class="logo">
+                <img src="images/bankist-logos.png" alt="bankist-logo">
+            </div>
+        </div>
+        <div class="login-info box">
+            <input type="text" placeholder="user" id="user">
+            <input type="text" placeholder="pin" id="pin">
+            <i class="fas fa-long-arrow-alt-right" id="login"></i>
+        </div>
+    </div>
+    <div class="modal-container">
+        <div class="balance-container">
+            <div class="text-current-balance-container">
+                <p class="current-balance-paragraph">Current balance</p>
+                <p class="current-balance-semi-paragraph"></p>
+            </div>
+            <div class="current-balance-container"></div>
+            <p class="actual-current-balance">0000</p>
+        </div>
+        <div class="accounts-main-container">
+            <div class="accounts-1-container">
+                <div class="accounts-section">
+                </div>
+
+            </div>
+            <div class="accounts-2-container">
+                <div class="box-1 accounts-box">
+                    <div class="inner-box">
+                        <p class="heading">Transfer Money</p>
+                        <div class="input-box">
+                            <input type="text" name="" id="transfer">
+                            <input type="text" name="" id="amount">
+                            <button class="transfer-right"> <i class="fas fa-long-arrow-alt-right "></i> </button>
+                        </div>
+                        <div class="semi-heading-container">
+                            <p>Transfer to</p>
+                            <p>Amount</p>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="box-2 accounts-box">
+                    <div class="inner-box">
+                        <p class="heading">Request loan</p>
+                        <div class="input-box">
+                            <input type="text" name="" id="request">
+                            <button class="amount-button"> <i class="fas fa-long-arrow-alt-right"></i> </button>
+                        </div>
+                        <div class="amount-text">
+                            <p>Amount</p>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="box-3 accounts-box">
+                    <div class="inner-box">
+                        <p class="heading">Close account</p>
+                        <div class="input-box">
+                            <input type="text" name="" id="close-user">
+                            <input type="text" name="" id="close-pin">
+                            <button class="close-button"> <i class="fas fa-long-arrow-alt-right"></i> </button>
+                        </div>
+                        <div class="semi-heading-container">
+                            <p>Confirm user</p>
+                            <p>Confirm PIN</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <p>in <span class="inflow">0</span> out <span class="outflow">0</span> interest <span class="interest">0</span></p>
+        </footer>
+    </div>
+
+    <div class="media-query-container">
+        <div class="media-query-content">
+            <p>This is a desktop web application,kindly view on large screens(laptops,desktops etc)</p>
+        </div>
+    </div>
+    <script defer src="index.js"></script>
+</body>
+
+</html>
