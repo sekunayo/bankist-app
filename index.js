@@ -19,6 +19,10 @@ const requestLoanButton = document.querySelector('.amount-button');
 const requestLoan = document.querySelector('#request');
 const interest = document.querySelector('.interest');
 const sortArrow = document.querySelector('.sort-arrow');
+const overlayContainer = document.querySelector('.overlay-container');
+const overlayIcon = document.querySelector('.overlay-icon');
+const overlayContentContainer = document.querySelector('.overlay-content');
+const overlayText = document.querySelector('.overlay-text');
 const account1 = {
     name: 'Grace Okereke',
     userPin: 0000,
@@ -38,11 +42,11 @@ class App {
         this.accounts = accounts;
         this.remove;
         this.changeNameToUserName(this.accounts);
-        loginArrow.addEventListener('click',this.login.bind(this));
-        transferButton.addEventListener('click',this.transferAmount.bind(this));
-       closeButton.addEventListener('click',this.closeAccount.bind(this));
-       requestLoanButton.addEventListener('click',this.requestLoanAmount.bind(this));
-    
+        loginArrow.addEventListener('click', this.login.bind(this));
+        transferButton.addEventListener('click', this.transferAmount.bind(this));
+        closeButton.addEventListener('click', this.closeAccount.bind(this));
+        requestLoanButton.addEventListener('click', this.requestLoanAmount.bind(this));
+        overlayContainer.addEventListener('click', this.hideFeedbackMessage.bind());
     }
     changeNameToUserName(accounts) {
         accounts.forEach(element => element.userName = element.name.toLowerCase().split(' ').map(array_element => array_element[0]).join(''));
@@ -84,23 +88,32 @@ class App {
         if (amountLoan > 0 && this.correctElement.transactions.some(element => element >= amountLoan * 0.1)) {
             this.correctElement.transactions.push(amountLoan);
             this.displayContent(this.correctElement);
+            overlayContainer.style.display = 'flex';
+            this.feedbackLoanMessage(amountLoan);
         }
         requestLoan.value = ' ';
     }
-    transferAmount(event){
+    transferAmount(event) {
         event.preventDefault();
         let correctTransferElement;
         correctTransferElement = this.accounts.find(element => element.userName === transferValue.value);
-        if ((correctTransferElement?.userName !== this.correctElement.userName) && (Number(amountValue.value) > 0) && (this.accumulateBalance(this.correctElement) > 0)) {
+        if ((correctTransferElement ?.userName !== this.correctElement.userName) && (Number(amountValue.value) > 0) && (this.accumulateBalance(this.correctElement) > 0)) {
             correctTransferElement.transactions.push((Number(amountValue.value)));
             this.correctElement.transactions.push((Number(-amountValue.value)));
             this.displayContent(this.correctElement);
+            overlayContainer.style.display = 'flex';
+            this.feedbackCorrectMessage(amountValue.value, correctTransferElement.userName);
+            transferValue.value = amountValue.value = "";
         }
-        transferValue.value = amountValue.value = "";
+        if ((correctTransferElement ?.userName === this.correctElement.userName) && (Number(amountValue.value) > 0)) {
+            overlayContainer.style.display = 'flex';
+            this.feedbackWrongMessage();
+            transferValue.value = amountValue.value = "";
+        }
     }
-    closeAccount(event){
+    closeAccount(event) {
         event.preventDefault();
-        if (this.correctElement?.userName === closeUser.value && this.correctElement?.userPin === Number(closePin.value)) {
+        if (this.correctElement ?.userName === closeUser.value && this.correctElement ?.userPin === Number(closePin.value)) {
             let correctIndexNumber;
             correctIndexNumber = this.accounts.findIndex(element => element.userName === closeUser.value);
             this.accounts.splice(correctIndexNumber, 1);
@@ -108,10 +121,10 @@ class App {
         }
         closeUser.value = closePin.value = "";
     }
-    login(event){
+    login(event) {
         event.preventDefault();
         this.correctElement = this.accounts.find(element => element.userName === user.value);
-        if (this.correctElement?.userPin === Number(pin.value) && this.correctElement.userName === user.value) {
+        if (this.correctElement ?.userPin === Number(pin.value) && this.correctElement.userName === user.value) {
             modalContainer.style.opacity = 100;
             this.displayContent(this.correctElement);
             actualCurrentBalance.textContent = this.accumulateBalance(this.correctElement) + '$';
@@ -119,7 +132,7 @@ class App {
         }
         pin.value = user.value = "";
     }
-    displayContent(account){
+    displayContent(account) {
         account.transactions.forEach((element, index) => {
             const result = element > 0 ? "deposit" : "withdraw";
             const html = ` <div class="accounts-inner-section">
@@ -133,15 +146,34 @@ class App {
         </div>
         </div>`;
             balanceContainer.insertAdjacentHTML('afterbegin', html);
-    
+
         })
         const depositAccountTotal = account.transactions.filter(element => element > 0).reduce((acc, cum) => acc + cum, 0);
         const withdrawAccountTotal = account.transactions.filter(element => element < 0).reduce((acc, cum) => acc + cum, 0);
-    
+
         inflow.textContent = `${depositAccountTotal}`;
         outflow.textContent = `${Math.abs(withdrawAccountTotal)}`;
         this.calcInterest();
     }
+    feedbackCorrectMessage(amount,element){
+       overlayContentContainer.classList.add('approve');
+       overlayContentContainer.classList.remove('reject');
+       overlayText.textContent = `You have successfully transfered ${amount}$ to ${element}`;
+    }
+    feedbackWrongMessage(){
+        overlayContentContainer.classList.remove('approve');
+        overlayContentContainer.classList.add('reject');
+        overlayText.textContent = 'You cant transfer money to your own account.';
+    }
+    feedbackLoanMessage(amount) {
+    overlayContentContainer.classList.add('approve');
+    overlayContentContainer.classList.remove('reject');
+    overlayText.textContent = `The loan requested has been successfully approved. Your account has successfully been credited with ${amount}`
+}
+    hideFeedbackMessage() {
+        overlayContainer.style.display = 'none';
+    }
+
 }
 let app = new App(accounts);
 balanceContainer.scrollTop = balanceContainer.scrollHeight;

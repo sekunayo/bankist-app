@@ -5,14 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>bankist</title>
-    <link rel="stylesheet" href="styles/index.css">
     <link rel="stylesheet" href="styles/modal.css">
+    <link rel="stylesheet" href="styles/index.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
         integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
 </head>
 
-<body>
+<body class=".body">
     <div class="main-container">
         <div class="login box">
             <p class="text">Log in to get started</p>
@@ -92,13 +92,17 @@
         <footer>
             <p>in <span class="inflow">0</span> out <span class="outflow">0</span> interest <span class="interest">0</span></p>
         </footer>
+        <div class="overlay-container">
+            <div class="overlay-content">
+                <p class="overlay-text"></p>
+            </div>
+        </div>
     </div>
-
     <div class="media-query-container">
         <div class="media-query-content">
             <p>This is a desktop web application,kindly view on large screens(laptops,desktops etc)</p>
         </div>
-    </div>
+    </div> 
     <script defer src="index.js"></script>
 </body>
 
