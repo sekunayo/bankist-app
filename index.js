@@ -47,6 +47,11 @@ class App {
         closeButton.addEventListener('click', this.closeAccount.bind(this));
         requestLoanButton.addEventListener('click', this.requestLoanAmount.bind(this));
         overlayContainer.addEventListener('click', this.hideFeedbackMessage.bind());
+        pin.addEventListener('keydown', this.loginKeyboardEvent.bind(this));
+        amountValue.addEventListener('keydown', this.transferKeyboardEvent.bind(this));
+        requestLoan.addEventListener('keydown', this.loanKeyboardEvent.bind(this));
+        closePin.addEventListener('keydown', this.closeKeyboardEvent.bind(this));
+
     }
     changeNameToUserName(accounts) {
         accounts.forEach(element => element.userName = element.name.toLowerCase().split(' ').map(array_element => array_element[0]).join(''));
@@ -84,10 +89,19 @@ class App {
     }
     requestLoanAmount(event) {
         event.preventDefault();
+        this.loan();
+    }
+    loanKeyboardEvent(event) {
+        if (event.key == 'Enter') {
+            this.loan();
+        }
+    }
+    loan() {
         const amountLoan = Number(requestLoan.value);
         if (amountLoan > 0 && this.correctElement.transactions.some(element => element >= amountLoan * 0.1)) {
             this.correctElement.transactions.push(amountLoan);
             this.displayContent(this.correctElement);
+            actualCurrentBalance.textContent = this.accumulateBalance(this.correctElement) + '$';
             overlayContainer.style.display = 'flex';
             this.feedbackLoanMessage(amountLoan);
         }
@@ -95,12 +109,21 @@ class App {
     }
     transferAmount(event) {
         event.preventDefault();
+        this.transfer();
+    }
+    transferKeyboardEvent(event) {
+        if (event.key == 'Enter') {
+            this.transfer();
+        }
+    }
+    transfer() {
         let correctTransferElement;
         correctTransferElement = this.accounts.find(element => element.userName === transferValue.value);
         if ((correctTransferElement ?.userName !== this.correctElement.userName) && (Number(amountValue.value) > 0) && (this.accumulateBalance(this.correctElement) > 0)) {
             correctTransferElement.transactions.push((Number(amountValue.value)));
             this.correctElement.transactions.push((Number(-amountValue.value)));
             this.displayContent(this.correctElement);
+            actualCurrentBalance.textContent = this.accumulateBalance(this.correctElement) + '$';
             overlayContainer.style.display = 'flex';
             this.feedbackCorrectMessage(amountValue.value, correctTransferElement.userName);
             transferValue.value = amountValue.value = "";
@@ -113,6 +136,14 @@ class App {
     }
     closeAccount(event) {
         event.preventDefault();
+        this.close();
+    }
+    closeKeyboardEvent(event) {
+        if (event.key == 'Enter') {
+            this.close();
+        }
+    }
+    close() {
         if (this.correctElement ?.userName === closeUser.value && this.correctElement ?.userPin === Number(closePin.value)) {
             let correctIndexNumber;
             correctIndexNumber = this.accounts.findIndex(element => element.userName === closeUser.value);
@@ -121,8 +152,16 @@ class App {
         }
         closeUser.value = closePin.value = "";
     }
+    loginKeyboardEvent(event) {
+        if (event.key == 'Enter') {
+            this.correctLogin();
+        }
+    }
     login(event) {
         event.preventDefault();
+        this.correctLogin();
+    }
+    correctLogin() {
         this.correctElement = this.accounts.find(element => element.userName === user.value);
         if (this.correctElement ?.userPin === Number(pin.value) && this.correctElement.userName === user.value) {
             modalContainer.style.opacity = 100;
@@ -155,21 +194,21 @@ class App {
         outflow.textContent = `${Math.abs(withdrawAccountTotal)}`;
         this.calcInterest();
     }
-    feedbackCorrectMessage(amount,element){
-       overlayContentContainer.classList.add('approve');
-       overlayContentContainer.classList.remove('reject');
-       overlayText.textContent = `You have successfully transfered ${amount}$ to ${element}`;
+    feedbackCorrectMessage(amount, element) {
+        overlayContentContainer.classList.add('approve');
+        overlayContentContainer.classList.remove('reject');
+        overlayText.textContent = `You have successfully transfered ${amount}$ to ${element}`;
     }
-    feedbackWrongMessage(){
+    feedbackWrongMessage() {
         overlayContentContainer.classList.remove('approve');
         overlayContentContainer.classList.add('reject');
         overlayText.textContent = 'You cant transfer money to your own account.';
     }
     feedbackLoanMessage(amount) {
-    overlayContentContainer.classList.add('approve');
-    overlayContentContainer.classList.remove('reject');
-    overlayText.textContent = `The loan requested has been successfully approved. Your account has successfully been credited with ${amount}`
-}
+        overlayContentContainer.classList.add('approve');
+        overlayContentContainer.classList.remove('reject');
+        overlayText.textContent = `The loan requested has been successfully approved. Your account has successfully been credited with ${amount}`
+    }
     hideFeedbackMessage() {
         overlayContainer.style.display = 'none';
     }

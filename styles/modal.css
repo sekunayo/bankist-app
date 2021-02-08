@@ -1,5 +1,5 @@
 .modal-container {
-    display: flex;
+    display: none;
     opacity: 0;
     flex-direction: column;
     justify-content: center;
@@ -96,11 +96,10 @@ footer {
     outline: 0;
     border: 1px solid transparent;
     border-radius: 5px;
-    padding: 8px 0;
+    padding: 8px 5px;
     display: block;
-    width: 90%;
+    width: 85%;
     background-color: rgba(255, 255, 255, 0.4);
-
 }
 
 .input-box button {
